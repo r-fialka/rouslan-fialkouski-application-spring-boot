@@ -7,9 +7,11 @@ import java.util.List;
 public class FloodStationsDTO {
     private List<FloodHomeDTO> homes;
 
+    // Default constructor
     public FloodStationsDTO() {
     }
 
+    // Constructor with parameters
     public FloodStationsDTO(List<FloodHomeDTO> homes) {
         this.homes = homes;
     }

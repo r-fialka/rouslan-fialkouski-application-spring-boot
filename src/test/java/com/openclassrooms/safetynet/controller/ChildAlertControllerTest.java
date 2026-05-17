@@ -27,13 +27,13 @@ class ChildAlertControllerTest {
 
     @Test
     void testGetChildAlert() throws Exception {
-        // Подготовка тестовых данных
+        // Preparing test data
         ChildInfo child = new ChildInfo("Tenley", "Boyd", 12, List.of("John Boyd", "Jacob Boyd"));
         ChildAlertDTO dto = new ChildAlertDTO(List.of(child));
 
         when(personService.getChildrenByAddress(anyString())).thenReturn(dto);
 
-        // Выполнение запроса и проверка ответа
+        // Execute the request and check the response
         mockMvc.perform(get("/childAlert").param("address", "1509 Culver St"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.children[0].firstName").value("Tenley"))
@@ -43,7 +43,7 @@ class ChildAlertControllerTest {
 
     @Test
     void testGetChildAlert_NoChildren() throws Exception {
-        // Пустой ответ
+        // Empty response
         when(personService.getChildrenByAddress(anyString())).thenReturn(new ChildAlertDTO(List.of()));
 
         mockMvc.perform(get("/childAlert").param("address", "Empty Address"))

@@ -13,9 +13,11 @@ public class PersonInfoDTO {
     private List<String> medications;
     private List<String> allergies;
 
+    // Default constructor
     public PersonInfoDTO() {
     }
 
+    // Constructor with parameters
     public PersonInfoDTO(String firstName, String lastName, String address,
                          int age, String email, List<String> medications, List<String> allergies) {
         this.firstName = firstName;

@@ -16,6 +16,7 @@ public class FireStationController {
 
     private final PersonService personService;
 
+    // GET: Returns list of residents served by a station with adult and child counts
     @GetMapping("/firestation")
     public ResponseEntity<FireStationCoverageDTO> getFirestation(
             @RequestParam("stationNumber") String stationNumber) {

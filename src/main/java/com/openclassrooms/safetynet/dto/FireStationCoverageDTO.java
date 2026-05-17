@@ -9,9 +9,11 @@ public class FireStationCoverageDTO {
     private int adultsCount;
     private int childrenCount;
 
+    // Default constructor
     public FireStationCoverageDTO() {
     }
 
+    // Constructor with parameters
     public FireStationCoverageDTO(List<PersonCoverageInfo> persons, int adultsCount, int childrenCount) {
         this.persons = persons;
         this.adultsCount = adultsCount;

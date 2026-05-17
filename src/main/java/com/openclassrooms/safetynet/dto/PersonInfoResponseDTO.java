@@ -7,9 +7,11 @@ import java.util.List;
 public class PersonInfoResponseDTO {
     private List<PersonInfoDTO> persons;
 
+    // Default constructor
     public PersonInfoResponseDTO() {
     }
 
+    // Constructor with parameters
     public PersonInfoResponseDTO(List<PersonInfoDTO> persons) {
         this.persons = persons;
     }

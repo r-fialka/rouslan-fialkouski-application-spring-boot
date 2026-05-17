@@ -12,9 +12,11 @@ public class FireResidentDTO {
     private List<String> medications;
     private List<String> allergies;
 
+    // Default constructor
     public FireResidentDTO() {
     }
 
+    // Constructor with parameters
     public FireResidentDTO(String firstName, String lastName, String phone,
                            int age, List<String> medications, List<String> allergies) {
         this.firstName = firstName;

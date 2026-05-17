@@ -16,6 +16,7 @@ public class PhoneAlertController {
 
     private final PersonService personService;
 
+    // GET: Returns phone numbers of residents served by the fire station
     @GetMapping("/phoneAlert")
     public ResponseEntity<PhoneAlertDTO> getPhoneAlert(@RequestParam("firestation") String stationNumber) {
         log.info("GET /phoneAlert?firestation={}", stationNumber);

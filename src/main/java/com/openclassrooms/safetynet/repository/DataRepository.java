@@ -19,6 +19,7 @@ public class DataRepository {
 
     private RootData rootData;
 
+    // Loads data from data.json file at application startup
     @PostConstruct
     public void loadData() {
         try {
@@ -32,99 +33,107 @@ public class DataRepository {
         }
     }
 
+    // Returns the root data object containing all persons, firestations and medical records
     public RootData getRootData() {
         return rootData;
     }
 
+    // ==================== PERSON METHODS ====================
 
-    // ========== METHODS FOR PERSON ==========
-
+    // Adds a new person to the list
     public void addPerson(Person person) {
         rootData.getPersons().add(person);
-        log.info("Добавлен человек: {} {}", person.getFirstName(), person.getLastName());
+        log.info("Added person: {} {}", person.getFirstName(), person.getLastName());
     }
 
+    // Updates an existing person's data (first and last name cannot be changed)
     public boolean updatePerson(String firstName, String lastName, Person updatedPerson) {
         List<Person> persons = rootData.getPersons();
         for (int i = 0; i < persons.size(); i++) {
             Person p = persons.get(i);
             if (p.getFirstName().equalsIgnoreCase(firstName) &&
                     p.getLastName().equalsIgnoreCase(lastName)) {
-                // Keep the first and last names (they remain unchanged)
                 updatedPerson.setFirstName(p.getFirstName());
                 updatedPerson.setLastName(p.getLastName());
                 persons.set(i, updatedPerson);
-                log.info("The person has been updated: {} {}", firstName, lastName);
+                log.info("Updated person: {} {}", firstName, lastName);
                 return true;
             }
         }
-        log.warn("The person {} {} was not found for the update", firstName, lastName);
+        log.warn("Person {} {} not found for update", firstName, lastName);
         return false;
     }
 
+    // Deletes a person by first and last name
     public boolean deletePerson(String firstName, String lastName) {
         boolean removed = rootData.getPersons().removeIf(p ->
                 p.getFirstName().equalsIgnoreCase(firstName) &&
                         p.getLastName().equalsIgnoreCase(lastName));
         if (removed) {
-            log.info("The person has been removed: {} {}", firstName, lastName);
+            log.info("Deleted person: {} {}", firstName, lastName);
         } else {
-            log.warn("The person {} {} was not found for deletion", firstName, lastName);
+            log.warn("Person {} {} not found for deletion", firstName, lastName);
         }
         return removed;
     }
 
-    // ========== METHODS FOR FIRESTATION ==========
+    // ==================== FIRESTATION METHODS ====================
 
+    // Adds a new address to firestation mapping
     public void addFirestation(FireStation firestation) {
         rootData.getFirestations().add(firestation);
-        log.info("Added connection: address {} -> station {}",
+        log.info("Added mapping: address {} -> station {}",
                 firestation.getAddress(), firestation.getStation());
     }
 
+    // Updates the station number for a given address
     public boolean updateFirestation(String address, String newStationNumber) {
         List<FireStation> firestations = rootData.getFirestations();
         for (FireStation fs : firestations) {
             if (fs.getAddress().equalsIgnoreCase(address)) {
                 fs.setStation(newStationNumber);
-                log.info("The station for the address {} has been updated: now {}", address, newStationNumber);
+                log.info("Updated station for address {}: now {}", address, newStationNumber);
                 return true;
             }
         }
-        log.warn("The address {} could not be found for the station update", address);
+        log.warn("Address {} not found for station update", address);
         return false;
     }
 
+    // Deletes a firestation mapping by address
     public boolean deleteFirestationByAddress(String address) {
         boolean removed = rootData.getFirestations().removeIf(fs ->
                 fs.getAddress().equalsIgnoreCase(address));
         if (removed) {
-            log.info("The link for the address {} has been removed", address);
+            log.info("Deleted mapping for address {}", address);
         } else {
-            log.warn("The address {} could not be found for deletion", address);
+            log.warn("Address {} not found for deletion", address);
         }
         return removed;
     }
 
+    // Deletes all firestation mappings by station number
     public boolean deleteFirestationByStation(String stationNumber) {
         boolean removed = rootData.getFirestations().removeIf(fs ->
                 fs.getStation().equals(stationNumber));
         if (removed) {
-            log.info("All connections for station {} have been removed", stationNumber);
+            log.info("Deleted all mappings for station {}", stationNumber);
         } else {
-            log.warn("The station {} was not found for deletion", stationNumber);
+            log.warn("Station {} not found for deletion", stationNumber);
         }
         return removed;
     }
 
-    // ========== METHODS FOR MEDICALRECORD ==========
+    // ==================== MEDICAL RECORD METHODS ====================
 
+    // Adds a new medical record
     public void addMedicalRecord(MedicalRecord medicalRecord) {
         rootData.getMedicalrecords().add(medicalRecord);
-        log.info("A medical record has been added for: {} {}",
+        log.info("Added medical record for: {} {}",
                 medicalRecord.getFirstName(), medicalRecord.getLastName());
     }
 
+    // Updates an existing medical record (first and last name cannot be changed)
     public boolean updateMedicalRecord(String firstName, String lastName, MedicalRecord updatedRecord) {
         List<MedicalRecord> records = rootData.getMedicalrecords();
         for (int i = 0; i < records.size(); i++) {
@@ -134,22 +143,23 @@ public class DataRepository {
                 updatedRecord.setFirstName(firstName);
                 updatedRecord.setLastName(lastName);
                 records.set(i, updatedRecord);
-                log.info("The medical record has been updated for: {} {}", firstName, lastName);
+                log.info("Updated medical record for: {} {}", firstName, lastName);
                 return true;
             }
         }
-        log.warn("No medical record found for {} {}", firstName, lastName);
+        log.warn("Medical record not found for: {} {}", firstName, lastName);
         return false;
     }
 
+    // Deletes a medical record by first and last name
     public boolean deleteMedicalRecord(String firstName, String lastName) {
         boolean removed = rootData.getMedicalrecords().removeIf(mr ->
                 mr.getFirstName().equalsIgnoreCase(firstName) &&
                         mr.getLastName().equalsIgnoreCase(lastName));
         if (removed) {
-            log.info("Medical record deleted for: {} {}", firstName, lastName);
+            log.info("Deleted medical record for: {} {}", firstName, lastName);
         } else {
-            log.warn("No medical record found for {} {}", firstName, lastName);
+            log.warn("Medical record not found for: {} {}", firstName, lastName);
         }
         return removed;
     }

@@ -16,6 +16,7 @@ public class FireController {
 
     private final PersonService personService;
 
+    // GET: Returns residents at an address with their station number and medical records
     @GetMapping("/fire")
     public ResponseEntity<FireAddressDTO> getFire(@RequestParam("address") String address) {
         log.info("GET /fire?address={}", address);

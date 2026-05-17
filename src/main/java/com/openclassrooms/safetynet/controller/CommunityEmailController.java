@@ -16,6 +16,7 @@ public class CommunityEmailController {
 
     private final PersonService personService;
 
+    // GET: Returns all email addresses of residents in a specified city
     @GetMapping("/communityEmail")
     public ResponseEntity<CommunityEmailDTO> getCommunityEmail(@RequestParam("city") String city) {
         log.info("GET /communityEmail?city={}", city);

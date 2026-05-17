@@ -16,6 +16,7 @@ public class ChildAlertController {
 
     private final PersonService personService;
 
+    // GET: Returns list of children (age ≤ 18) at an address with their household members
     @GetMapping("/childAlert")
     public ResponseEntity<ChildAlertDTO> getChildAlert(@RequestParam("address") String address) {
         log.info("GET /childAlert?address={}", address);

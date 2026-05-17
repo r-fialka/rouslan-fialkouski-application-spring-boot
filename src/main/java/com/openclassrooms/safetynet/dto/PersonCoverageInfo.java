@@ -9,9 +9,11 @@ public class PersonCoverageInfo {
     private String address;
     private String phone;
 
+    // Default constructor
     public PersonCoverageInfo() {
     }
 
+    // Constructor with parameters
     public PersonCoverageInfo(String firstName, String lastName, String address, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;

@@ -16,6 +16,7 @@ public class PersonInfoController {
 
     private final PersonService personService;
 
+    // GET: Returns person details (address, age, email, medications, allergies) by last name
     @GetMapping("/personInfo")
     public ResponseEntity<PersonInfoResponseDTO> getPersonInfo(
             @RequestParam("lastName") String lastName) {

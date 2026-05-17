@@ -19,6 +19,7 @@ public class FloodStationsController {
 
     private final PersonService personService;
 
+    // GET: Returns all homes served by a list of stations, grouped by address with residents and medical records
     @GetMapping("/flood/stations")
     public ResponseEntity<FloodStationsDTO> getFloodStations(
             @RequestParam("stations") String stations) {
