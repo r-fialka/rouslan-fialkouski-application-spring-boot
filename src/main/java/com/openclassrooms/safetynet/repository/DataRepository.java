@@ -9,6 +9,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
+import java.io.File;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,6 +45,7 @@ public class DataRepository {
     public void addPerson(Person person) {
         rootData.getPersons().add(person);
         log.info("Added person: {} {}", person.getFirstName(), person.getLastName());
+        saveToFile();
     }
 
     // Updates an existing person's data (first and last name cannot be changed)
@@ -57,6 +59,7 @@ public class DataRepository {
                 updatedPerson.setLastName(p.getLastName());
                 persons.set(i, updatedPerson);
                 log.info("Updated person: {} {}", firstName, lastName);
+                saveToFile();
                 return true;
             }
         }
@@ -71,6 +74,7 @@ public class DataRepository {
                         p.getLastName().equalsIgnoreCase(lastName));
         if (removed) {
             log.info("Deleted person: {} {}", firstName, lastName);
+            saveToFile();
         } else {
             log.warn("Person {} {} not found for deletion", firstName, lastName);
         }
@@ -84,6 +88,7 @@ public class DataRepository {
         rootData.getFirestations().add(firestation);
         log.info("Added mapping: address {} -> station {}",
                 firestation.getAddress(), firestation.getStation());
+        saveToFile();
     }
 
     // Updates the station number for a given address
@@ -93,6 +98,7 @@ public class DataRepository {
             if (fs.getAddress().equalsIgnoreCase(address)) {
                 fs.setStation(newStationNumber);
                 log.info("Updated station for address {}: now {}", address, newStationNumber);
+                saveToFile();
                 return true;
             }
         }
@@ -106,6 +112,7 @@ public class DataRepository {
                 fs.getAddress().equalsIgnoreCase(address));
         if (removed) {
             log.info("Deleted mapping for address {}", address);
+            saveToFile();
         } else {
             log.warn("Address {} not found for deletion", address);
         }
@@ -118,6 +125,7 @@ public class DataRepository {
                 fs.getStation().equals(stationNumber));
         if (removed) {
             log.info("Deleted all mappings for station {}", stationNumber);
+            saveToFile();
         } else {
             log.warn("Station {} not found for deletion", stationNumber);
         }
@@ -131,6 +139,7 @@ public class DataRepository {
         rootData.getMedicalrecords().add(medicalRecord);
         log.info("Added medical record for: {} {}",
                 medicalRecord.getFirstName(), medicalRecord.getLastName());
+        saveToFile();
     }
 
     // Updates an existing medical record (first and last name cannot be changed)
@@ -144,6 +153,7 @@ public class DataRepository {
                 updatedRecord.setLastName(lastName);
                 records.set(i, updatedRecord);
                 log.info("Updated medical record for: {} {}", firstName, lastName);
+                saveToFile();
                 return true;
             }
         }
@@ -158,9 +168,23 @@ public class DataRepository {
                         mr.getLastName().equalsIgnoreCase(lastName));
         if (removed) {
             log.info("Deleted medical record for: {} {}", firstName, lastName);
+            saveToFile();
         } else {
             log.warn("Medical record not found for: {} {}", firstName, lastName);
         }
         return removed;
+    }
+
+    // Saves current data to data.json file
+    private void saveToFile() {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            File file = new File("src/main/resources/data.json");
+            mapper.writerWithDefaultPrettyPrinter().writeValue(file, rootData);
+            log.info("Data saved to data.json successfully");
+        } catch (IOException e) {
+            log.error("Error saving data to data.json: {}", e.getMessage());
+            throw new RuntimeException("Unable to save data to data.json");
+        }
     }
 }
